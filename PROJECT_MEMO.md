@@ -1,12 +1,12 @@
 # Trivia Game Project Memo
 
 ## Project Overview
-A web-based trivia game that uses Google's Gemini Pro API to generate questions and validate answers. The project aims to create an engaging, simple-to-use trivia game with AI-generated questions.
+A web-based trivia game that uses Google's Gemini Pro API to generate questions and validate answers. The project aims to create an engaging, simple-to-use trivia game with AI-generated questions and educational feedback.
 
 ## Tech Stack
 - **Backend**: Go with Fiber framework
 - **Frontend**: Vue.js 3 + Tailwind CSS
-- **AI**: Google Gemini Pro API
+- **AI**: Google Gemini Pro API (official SDK)
 - **Future Database**: PostgreSQL
 - **Hosting**: Google Cloud Platform (planned)
 
@@ -19,14 +19,16 @@ A web-based trivia game that uses Google's Gemini Pro API to generate questions 
 - [x] Simple Vue.js frontend
 - [x] Basic game loop implementation
 - [x] Dark mode UI
-- [ ] Enhanced game mechanics
-  - [ ] Answer history display
-  - [ ] Educational tidbits
-  - [ ] Fuzzy answer matching
-  - [ ] Auto-focus and keyboard shortcuts
-  - [ ] Improved UI positioning
+- [x] Enhanced game mechanics
+  - [x] Answer history display (limited to previous question)
+  - [x] Educational tidbits
+  - [x] Fuzzy answer matching
+  - [x] Auto-focus and keyboard shortcuts
+  - [x] Improved UI positioning
+  - [x] Color-coded feedback
+  - [x] Hot reloading setup
 
-### Phase 2: Database Integration
+### Phase 2: Database Integration (Next Phase)
 - [ ] Set up PostgreSQL database
 - [ ] Store question history
 - [ ] Track user sessions
@@ -45,43 +47,63 @@ A web-based trivia game that uses Google's Gemini Pro API to generate questions 
 - [ ] Monitoring and logging
 - [ ] Production deployment
 
+## Current Implementation Details
+
+### Backend
+- Using official Gemini Go SDK
+- Hot reloading with Air
+- Environment variables via .env
+- Structured JSON responses for answers
+- Enhanced error handling
+- CORS enabled for development
+
+### Frontend
+- Vue 3 with Composition API
+- Tailwind CSS for styling
+- Dark mode by default
+- Responsive design
+- Auto-focusing input field
+- Keyboard shortcuts (Enter to submit)
+- Transition animations
+- Clean, minimalist UI
+
+### Game Flow
+1. Question is displayed
+2. User inputs answer
+3. Answer is validated by AI
+4. Feedback and educational tidbit shown
+5. Previous question stored in history
+6. New question loaded automatically
+7. Input field auto-focused
+
+### Development Environment
+- Backend runs on port 8080
+- Frontend uses Vite dev server
+- Hot reloading enabled for both
+- Environment variables managed via .env
+- Git ignore patterns set up
+
 ## API Endpoints
 - `GET /api/health` - Health check
 - `GET /api/question` - Get random trivia question
-- `POST /api/check-answer` - Validate user's answer
-
-## Current Status
-- Backend implementation complete with official Gemini SDK
-- Frontend implementation complete with basic functionality
-- Environment variables configured
-- Basic game loop working
-- Working on enhanced game mechanics and UX improvements
-
-## Recent Updates
-- Switched to official Gemini Go SDK
-- Implemented environment variable management
-- Added proper error handling
-- Configured model parameters for better responses
-- Dark mode implementation complete
+- `POST /api/check-answer` - Validate user's answer with feedback
 
 ## Development Notes
-- Gemini API requires API key (managed via .env file)
-- Frontend runs on Vite development server
-- Backend runs on port 8080 by default
-- CORS enabled for local development
-- Model parameters tuned for trivia:
-  - Temperature: 0.7 (balanced creativity)
-  - TopK: 40 (diverse responses)
-  - TopP: 0.95 (nucleus sampling)
-  - MaxOutputTokens: 100 (response length)
+- Gemini API key required in .env file
+- Run backend with `air` for hot reloading
+- Run frontend with `npm run dev`
+- Frontend auto-reloads on changes
+- Backend auto-reloads with Air
 
-## Planned Improvements
-- Enhanced answer validation with fuzzy matching
-- Educational content after each answer
-- Improved UI/UX with keyboard shortcuts
-- Answer history display
-- Auto-progression to next question
-- Better vertical positioning of game interface
+## UI/UX Features
+- Clean, minimalist design
+- Dark mode optimized
+- Color-coded feedback (green/red)
+- Educational tidbits after each answer
+- Previous question history
+- Smooth transitions
+- Responsive input handling
+- Clear visual hierarchy
 
 ## Future Considerations
 - Rate limiting for API calls
@@ -91,18 +113,53 @@ A web-based trivia game that uses Google's Gemini Pro API to generate questions 
 - Accessibility features
 - Performance monitoring
 - Cost optimization for cloud hosting
+- Question categories
+- Difficulty levels
+- User accounts
+- Leaderboards
 
-## Project Goals
-1. Create an engaging trivia experience
-2. Demonstrate AI integration in web applications
-3. Maintain clean, maintainable code structure
-4. Ensure scalability for future features
-5. Provide responsive and accessible UI
-6. Keep infrastructure costs minimal
-7. Make learning fun with educational tidbits
+## Known Issues/Limitations
+- Limited to one previous question in history
+- No persistent storage yet
+- No user sessions
+- No difficulty settings
+- No category selection
+
+## Next Steps
+1. Implement database integration
+2. Add user sessions
+3. Implement scoring system
+4. Add difficulty levels
+5. Add category selection
+6. Prepare for cloud deployment
 
 ## Resources
 - [Gemini API Documentation](https://ai.google.dev/gemini-api/docs/quickstart?lang=go)
 - [Vue.js Documentation](https://vuejs.org/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
-- [Go Fiber Documentation](https://docs.gofiber.io/) 
+- [Go Fiber Documentation](https://docs.gofiber.io/)
+
+## Development Commands
+```bash
+# Backend
+cd backend
+air  # for hot reloading
+
+# Frontend
+cd frontend
+npm run dev
+```
+
+## Required Environment Variables
+```env
+# Backend (.env)
+GEMINI_API_KEY=your-api-key-here
+PORT=8080
+
+# Future Database Config
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=trivia_db
+DB_USER=postgres
+DB_PASSWORD=your-password-here
+``` 
