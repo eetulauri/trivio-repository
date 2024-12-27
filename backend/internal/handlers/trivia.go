@@ -62,7 +62,7 @@ func (h *TriviaHandler) CheckAnswer(c *fiber.Ctx) error {
 		})
 	}
 
-	isCorrect, err := h.geminiClient.CheckAnswer(request.Question, request.Answer)
+	response, err := h.geminiClient.CheckAnswer(request.Question, request.Answer)
 	if err != nil {
 		log.Printf("Error checking answer: %v", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -71,6 +71,8 @@ func (h *TriviaHandler) CheckAnswer(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(fiber.Map{
-		"correct": isCorrect,
+		"correct":  response.Correct,
+		"feedback": response.Feedback,
+		"tidbit":   response.Tidbit,
 	})
 }
